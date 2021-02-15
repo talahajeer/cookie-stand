@@ -1,0 +1,14 @@
+* {
+    font-family: Arial, sans-serif;
+  }
+  
+  table {
+    border: solid black 1px;
+  }
+  th {
+    border: solid black 1px;
+  }
+  
+  td{
+    border: solid black 1px;
+  }
