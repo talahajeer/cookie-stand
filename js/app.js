@@ -5,12 +5,15 @@ let randomNo = function (min, max) {
 }
 const hoursArr = ["6am", "7am", "8am", "9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm"];
 const locationArr = ["Seattle", "Tokyo", "Dubai", "Paris", "Lima"];
+const shops = [];
 
 let totalOfHours = 0;
 let totalOfTotal = 0;
 
+
 const parent = document.getElementById("StoresLocations");
 const table = document.createElement("table");
+table.setAttribute("id","tableContent");
 parent.appendChild(table);
 
 function hourHeading() {
@@ -37,6 +40,7 @@ function Shop(locationName, min, max, avgCookies) {
     this.avgCustomers = 0;
     this.cookiesHour = [];
     this.cookiesSum = 0;
+    shops.push(this);
 }
 
 Shop.prototype.getCookiesNo = function () {
@@ -78,13 +82,13 @@ let paris = new Shop("Paris", 20, 38, 2.3);
 let lima = new Shop("Lima", 2, 16, 4.6);
 
 
-const shops = [seattle, tokyo, dubai, paris, lima];
 
-for (let i = 0; i < shops.length; i++) {
-    shops[i].getCookiesNo();
-    shops[i].render();
+function renderTable() {
+    for (let i = 0; i < shops.length; i++) {
+        shops[i].getCookiesNo();
+        shops[i].render();
+    }
 }
-
 
 function renderTotal() {
     const dataRaw = document.createElement("tr");
@@ -109,5 +113,40 @@ function renderTotal() {
     dataRaw.appendChild(totalHour2);
     totalHour2.textContent = totalOfHours;
 }
-renderTotal();
 
+
+
+
+let storeForm = document.getElementById("storeForm");
+storeForm.addEventListener("submit", submitter);
+
+
+function submitter(event) {
+    event.preventDefault();
+    console.log(event);
+    let locationName = event.target.storeName.value;
+    console.log(locationName);
+    let min = event.target.min.value;
+    console.log(min);
+    let max = event.target.max.value;
+    console.log(max);
+    let avgCookies = event.target.avgCookies.value;
+    console.log(avgCookies);
+
+    let addedStore = new Shop(locationName, min, max, avgCookies);
+    console.log(addedStore);
+    addedStore.getCookiesNo();
+    addedStore.render();
+
+    let container = document.getElementById("tableContent");
+    container.textContent = "";
+    hourHeading();
+
+    for (let i = 0; i < shops.length; i++) {
+        shops[i].getCookiesNo();
+        shops[i].render();
+    }
+    renderTotal();
+}
+renderTable();
+renderTotal();
