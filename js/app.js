@@ -3,12 +3,11 @@
 let randomNo = function (min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min)
 }
-let hoursArr = ["6am", "7am", "8am", "9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm"];
-let locationArr = ["Seattle", "Tokyo", "Dubai", "Paris", "Lima"];
-let subTotals = 0;
+const hoursArr = ["6am", "7am", "8am", "9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm"];
+const locationArr = ["Seattle", "Tokyo", "Dubai", "Paris", "Lima"];
+
 let totalOfHours = 0;
 let totalOfTotal = 0;
-
 
 const parent = document.getElementById("StoresLocations");
 const table = document.createElement("table");
@@ -69,27 +68,23 @@ Shop.prototype.render = function () {
 }
 
 let seattle = new Shop("Seattle", 23, 65, 6.3);
-seattle.getCookiesNo();
-// console.log(seattle);
-seattle.render();
 
 let tokyo = new Shop("Tokyo", 3, 24, 1.2);
-tokyo.getCookiesNo();
-tokyo.render();
 
 let dubai = new Shop("Dubai", 11, 38, 3.7);
-dubai.getCookiesNo();
-dubai.render();
 
 let paris = new Shop("Paris", 20, 38, 2.3);
-paris.getCookiesNo();
-paris.render();
 
 let lima = new Shop("Lima", 2, 16, 4.6);
-lima.getCookiesNo();
-lima.render();
 
-let shops = [seattle, tokyo, dubai, paris, lima];
+
+const shops = [seattle, tokyo, dubai, paris, lima];
+
+for (let i = 0; i < shops.length; i++) {
+    shops[i].getCookiesNo();
+    shops[i].render();
+}
+
 
 function renderTotal() {
     const dataRaw = document.createElement("tr");
@@ -100,16 +95,19 @@ function renderTotal() {
     hoursTotal.textContent = "Totals";
 
     for (let i = 0; i < hoursArr.length; i++) {
+        let subTotals = 0;
+
+        for (let j = 0; j < shops.length; j++) {
+            subTotals = subTotals + shops[j].cookiesHour[i];
+        }
+        totalOfHours = totalOfHours + subTotals;
         const totalHour1 = document.createElement("th");
         dataRaw.appendChild(totalHour1);
-
-        subTotals = seattle.cookiesHour[i] + tokyo.cookiesHour[i] + dubai.cookiesHour[i] + paris.cookiesHour[i] + lima.cookiesHour[i];
-        totalHour1.textContent = (subTotals);
-        totalOfHours = totalOfHours + subTotals;
+        totalHour1.textContent = subTotals;
     }
-    const totalHour1 = document.createElement("th");
-    dataRaw.appendChild(totalHour1);
-    totalHour1.textContent = (totalOfHours);
+    const totalHour2 = document.createElement("th");
+    dataRaw.appendChild(totalHour2);
+    totalHour2.textContent = totalOfHours;
 }
 renderTotal();
 
