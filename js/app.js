@@ -123,6 +123,7 @@ storeForm.addEventListener("submit", submitter);
 
 function submitter(event) {
     event.preventDefault();
+    totalOfHours = 0;
     console.log(event);
     let locationName = event.target.storeName.value;
     console.log(locationName);
@@ -143,7 +144,7 @@ function submitter(event) {
     hourHeading();
 
     for (let i = 0; i < shops.length; i++) {
-        shops[i].getCookiesNo();
+        // shops[i].getCookiesNo();
         shops[i].render();
     }
     renderTotal();
